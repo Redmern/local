@@ -8,11 +8,11 @@ import { io } from 'socket.io-client';
 
 const socket = io();
 
-console.log(socket)
-
 socket.on('connect', () => {
   console.log(socket.id);
 });
+
+socket.emit('Test')
 
 export default defineComponent({
   name: 'App'

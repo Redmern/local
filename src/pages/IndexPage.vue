@@ -9,14 +9,17 @@
 import { defineComponent } from 'vue';
 import { useDimmer } from 'stores/lightControlDimmer';
 import { useOnOffSwitch } from 'stores/lightControlSwitch';
+import { useSocket } from 'stores/socketIO';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
-    const switch = useOnOffSwitch();
-    const dimmer = useDimmer();
-
-    return {};
+    // const onOffSwitch = useOnOffSwitch();
+    // const dimmer = useDimmer();
+    // const socket = useSocket();
+    // socket.register();
+    return { /* onOffSwitch, dimmer, socket */ };
   }
 });
 </script>
+sudo
