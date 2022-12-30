@@ -4,14 +4,14 @@ var url = require('url');
 var path = require('path');
 const io = require('socket.io', 'net')(http);
 
-// const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-// const GpioPwm = require('pigpio').Gpio;
+const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+const GpioPwm = require('pigpio').Gpio;
 
-// var powerPin = new Gpio(26, 'out'); //use GPIO pin 26 as output
-// var dimPin = new GpioPwm(12, { mode: Gpio.OUTPUT });
+var powerPin = new Gpio(26, 'out'); //use GPIO pin 26 as output
+var dimPin = new GpioPwm(12, { mode: Gpio.OUTPUT });
 
-// var GPIO26Value = 1; // Turn off the LED by default
-// var GPIO12Value = 0;
+var onOffValue = 1; // Turn off the LED by default
+var dimValue = 0;
 
 const WebPort = 80;
 
@@ -22,10 +22,10 @@ http.listen(WebPort, function () {
 function handler(req, res) {
   var q = url.parse(req.url, true);
   var filename = '.' + q.pathname;
-  console.log('filename=' + filename);
+  //console.log('filename=' + filename);
   var extname = path.extname(filename);
   if (filename == './') {
-    console.log('retrieving default index.html file');
+    //console.log('retrieving default index.html file');
     filename = './index.html';
   }
 
@@ -54,7 +54,7 @@ function handler(req, res) {
 
   fs.readFile(__dirname + '/dist/pwa/' + filename, function (err, content) {
     if (err) {
-      console.log('File not found. Filename=' + filename);
+      //console.log('File not found. Filename=' + filename);
       fs.readFile(__dirname + '/public/404.html', function (err, content) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         return res.end(content, 'utf8');
@@ -66,14 +66,24 @@ function handler(req, res) {
   });
 }
 
-io.sockets.on('connection', () => {
+io.sockets.on('connection', (socket) => {
   console.log('A new client has connectioned. Send LED status');
-});
 
-io.sockets.on('disconnect', () => {
-  console.log('A user disconnected');
-});
+  socket.on('onOff', (data) => {
+    onOffValue = data;
+    powerPin.writeSync(onOffValue);
+    console.log('GPIO26 : ' + onOffValue);
+    io.emit('onOff', onOffValue);
+  });
 
-io.sockets.on('test', () => {
-  console.log('A user Tested');
+  socket.on('dim', (data) => {
+    dimValue = data;
+    dimPin.pwmWrite(dimValue);
+    console.log('GPIO12 : ' + onOffValue);
+    io.emit('dim', onOffValue);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
 });

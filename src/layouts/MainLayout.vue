@@ -12,10 +12,10 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          LocalSetup
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>LocalSetup v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
