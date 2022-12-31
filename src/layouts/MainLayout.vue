@@ -1,18 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-    <q-footer>
-      <q-toolbar class="glossy row reverse">
-
-        <div><q-btn flat dense icon="menu" aria-label="Menu" @click="toggleDrawer" /></div>
-        <div style="width: 100%; display: flex; justify-content: center;">
-          <q-slider class="" style="width: 85%; padding: auto auto auto auto" v-model="socket.dimValue" color="grey"
-            thumb-color="light-green-10" :min="0" :max="100" label />
-        </div>
-
-      </q-toolbar>
-    </q-footer>
-
     <q-drawer v-model="leftDrawerOpen" side="left" show-if-above :width="250" :breakpoint="500">
       <q-list class="fixed-center">
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
@@ -27,6 +15,21 @@
 
     <q-page-container>
       <router-view />
+
+      <q-footer class="float">
+        <q-toolbar class="row reverse">
+
+          <div>
+            <q-btn flat dense icon="menu" aria-label="Menu" @click="toggleDrawer" />
+          </div>
+
+          <div class="footer_slider">
+            <q-slider class="slider" v-model="socket.dimValue" color="grey" thumb-color="light-green-10" :min="0"
+              :max="100" label />
+          </div>
+
+        </q-toolbar>
+      </q-footer>
     </q-page-container>
   </q-layout>
 </template>
