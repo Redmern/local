@@ -1,42 +1,24 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+    <q-footer>
+      <q-toolbar class="row reverse">
+        <q-btn flat dense icon="menu" aria-label="Menu" @click="toggleDrawer" />
 
-        <q-toolbar-title>
+        <!-- <q-toolbar-title>
           LocalSetup
-        </q-toolbar-title>
+        </q-toolbar-title> -->
 
-        <div>LocalSetup v{{ $q.version }}</div>
+
       </q-toolbar>
-    </q-header>
+    </q-footer>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+    <q-drawer v-model="leftDrawerOpen" side="left" show-if-above bordered>
+      <q-list class="fixed-center">
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+
       </q-list>
+      <q-footer class="row reverse">LocalSetup v{{ $q.version }}</q-footer>
     </q-drawer>
 
     <q-page-container>
@@ -48,6 +30,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
+import { useQuasar } from 'quasar'
 
 const linksList = [
   {
@@ -101,14 +84,18 @@ export default defineComponent({
     EssentialLink
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const DrawerOpen = ref(false)
+    const $q = useQuasar()
+
+    // set status
+    $q.dark.set(true) // or false or "auto"
 
     return {
       essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
+      leftDrawerOpen: DrawerOpen,
+      toggleDrawer() {
+        DrawerOpen.value = !DrawerOpen.value
       }
     }
   }
