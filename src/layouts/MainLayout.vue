@@ -1,22 +1,50 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-    <q-drawer v-model="leftDrawerOpen" side="left" show-if-above :width="250" :breakpoint="500">
+    <q-drawer v-model="leftDrawerOpen" :width="250" side="left" show-if-above>
+
+      <q-header class="q-dark">
+        <div class="header">
+
+          <q-icon class="header_icon" name="yard" />
+
+          <div class="drawer-header-title">
+            <p>
+              Local Setup
+            </p>
+          </div>
+
+        </div>
+      </q-header>
+
       <q-list class="fixed-center">
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
+
       <q-footer class="q-dark">
-        <div style="display: flex; justify-content: center;">
-          <p class="text-light-green-10 q-mr-sm" style="font-size: 10px;"> LocalSetup V{{ $q.version }} </p>
+
+        <div class="bottom">
+
+          <q-toggle q-ml-s v-model="socket.onOffValue" />
+          <!-- <div class="text-light-green-10">
+            LocalSetup V{{ $q.version }}
+          </div> -->
+
+          <p style="font-size: 10px;">
+            V{{ $q.version }}
+          </p>
+
         </div>
-        <!-- <div class="q-pa-sm grey-9"> LocalSetup V{{ $q.version }} </div> -->
       </q-footer>
+
+
+
     </q-drawer>
 
     <q-page-container>
       <router-view />
 
-      <q-footer class="float">
+      <q-footer class="bottom_menu">
         <q-toolbar class="row reverse">
 
           <div>
@@ -24,8 +52,7 @@
           </div>
 
           <div class="footer_slider">
-            <q-slider class="slider" v-model="socket.dimValue" color="grey" thumb-color="light-green-10" :min="0"
-              :max="100" label />
+            <q-slider class="slider" v-model="socket.dimValue" color="grey" :min="0" :max="100" label />
           </div>
 
         </q-toolbar>
@@ -46,13 +73,13 @@ const linksList = [
     title: 'Home',
     // caption: 'Control the schedule of lights',
     icon: 'home',
-    link: 'https://quasar.dev'
+    link: '#'
   },
   {
     title: 'Light schedule',
     // caption: 'Control the schedule of lights',
     icon: 'light',
-    link: 'https://quasar.dev'
+    link: 'LightSchedule'
   },
   {
     title: 'Environment',
