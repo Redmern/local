@@ -1,6 +1,5 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-
     <q-drawer v-model="leftDrawerOpen" :width="250" side="left" show-if-above>
 
       <q-header class="q-dark">
@@ -20,7 +19,6 @@
       <q-list class="fixed-center">
         <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
-
       <q-footer class="q-dark">
 
         <div class="bottom">
@@ -42,8 +40,8 @@
     </q-drawer>
 
     <q-page-container>
+      <div class="page_header_title">{{ $route.name }}</div>
       <router-view />
-
       <q-footer class="bottom_menu">
         <q-toolbar class="row reverse">
 
@@ -64,9 +62,9 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
-import { useDimmer } from 'stores/lightControlDimmer';
 import { useSocket } from 'stores/socketIO';
 import { useQuasar } from 'quasar'
+import { route } from 'quasar/wrappers'
 
 const linksList = [
   {
@@ -85,13 +83,13 @@ const linksList = [
     title: 'Environment',
     // caption: 'Control the environment',
     icon: 'settings',
-    link: ''
+    link: 'Environment'
   },
   {
     title: 'Documentation',
     // caption: 'What params did this growth use',
     icon: 'summarize',
-    link: ''
+    link: 'Documentation'
   }
 ];
 
@@ -101,11 +99,14 @@ export default defineComponent({
   components: {
     EssentialLink
   },
-
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
+    }
+  },
   setup() {
-    const DrawerOpen = ref(false)
-    const $q = useQuasar()
-
+    const DrawerOpen = ref(false);
+    const $q = useQuasar();
     const socket = useSocket();
 
     // set status
@@ -117,7 +118,8 @@ export default defineComponent({
       toggleDrawer() {
         DrawerOpen.value = !DrawerOpen.value
       },
-      socket
+      socket,
+      route
     }
   }
 });

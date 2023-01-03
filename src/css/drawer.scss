@@ -1,0 +1,42 @@
+.drawer-header-title {
+  margin-top: 10px;
+}
+
+.header {
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+  p {
+    color: white;
+    font-size: 0.75rem;
+  }
+  .header_icon {
+    font-size: 24px;
+    color: var(--q-primary);
+  }
+}
+
+.bottom {
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: center;
+  .version {
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    width: max;
+    margin-left: 15px;
+    p {
+      margin: 0px 0px 0px 0px !important;
+    }
+  }
+  p {
+    color: var(--q-primary);
+  }
+}
+
+// .menu_icon {
+//   color: var(--q-primary);
+// }
