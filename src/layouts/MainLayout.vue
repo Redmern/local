@@ -50,10 +50,9 @@
           </div>
 
           <div class="footer_slider">
-            <q-slider class="slider" v-model="socket.dimValue" @pan="socket.dim" color="grey" :min="0" :max="100"
-              label />
+            <q-slider id="slider" class="slider" v-model="socket.dimValue" @update:model-value="socket.dim" color="grey"
+              :min="0" :max="100" label />
           </div>
-
         </q-toolbar>
       </q-footer>
     </q-page-container>
@@ -107,31 +106,24 @@ export default defineComponent({
   },
   setup() {
     const DrawerOpen = ref(false);
+
     const $q = useQuasar();
-    const socket = useSocket();
-
-    socket.getSocket.on('onOff', (data) => {
-      data == 0 ? (socket.onOffValue = true) : (socket.onOffValue = false);
-
-      console.log('GPIO26 : ' + data);
-    });
-    socket.getSocket.on('dim', (data) => {
-      socket.dimValue = data;
-
-      console.log('GPIO26 : ' + data);
-    });
-
-    // set status
     $q.dark.set(true) // or false or "auto"
+
+    const socket = useSocket();
+    socket.listen();
+
+    // const slidingValue = document.getElementById('slider')?.ariaValueNow || '';
+
+    // console.log(slidingValue);
+
+
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen: DrawerOpen,
       toggleDrawer() {
         DrawerOpen.value = !DrawerOpen.value
-      },
-      toggle() {
-        socket.getSocket.emit('onOff')
       },
       socket,
       route
