@@ -2,9 +2,31 @@ import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
+    path: '',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    redirect: '/Home',
+    children: [
+      {
+        path: '/Home',
+        name: 'Home',
+        component: () => import('pages/Home.vue'),
+      },
+      {
+        path: '/LightSchedule',
+        name: 'Light schedule',
+        component: () => import('pages/LightSchedule.vue'),
+      },
+      {
+        path: '/Environment',
+        name: 'Environment',
+        component: () => import('pages/Environment.vue'),
+      },
+      {
+        path: '/Documentation',
+        name: 'Documentation',
+        component: () => import('pages/Documentation.vue'),
+      },
+    ],
   },
 
   // Always leave this as last one,

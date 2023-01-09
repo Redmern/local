@@ -1,17 +1,17 @@
 <template>
-  <router-view />
+  <q-page class="row items-center justify-evenly">
+
+  </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useSocket } from 'stores/socketIO';
-
 
 export default defineComponent({
-  name: 'App',
+  name: 'IndexPage',
   setup() {
-    const socket = useSocket();
-    socket.boot();
+    return {};
   }
 });
 </script>
+sudo
