@@ -23,7 +23,7 @@
 
         <div class="bottom">
 
-          <q-toggle q-ml-s v-model="socket.onOffValue" />
+          <q-toggle q-ml-s v-model="socket.onOffValue" @click="socket.onOff()" />
           <!-- <div class="text-light-green-10">
             LocalSetup V{{ $q.version }}
           </div> -->
@@ -50,7 +50,8 @@
           </div>
 
           <div class="footer_slider">
-            <q-slider class="slider" v-model="socket.dimValue" color="grey" :min="0" :max="100" label />
+            <q-slider class="slider" v-model="socket.dimValue" @pan="socket.dim" color="grey" :min="0" :max="100"
+              label />
           </div>
 
         </q-toolbar>
@@ -109,6 +110,17 @@ export default defineComponent({
     const $q = useQuasar();
     const socket = useSocket();
 
+    socket.getSocket.on('onOff', (data) => {
+      data == 0 ? (socket.onOffValue = true) : (socket.onOffValue = false);
+
+      console.log('GPIO26 : ' + data);
+    });
+    socket.getSocket.on('dim', (data) => {
+      socket.dimValue = data;
+
+      console.log('GPIO26 : ' + data);
+    });
+
     // set status
     $q.dark.set(true) // or false or "auto"
 
@@ -117,6 +129,9 @@ export default defineComponent({
       leftDrawerOpen: DrawerOpen,
       toggleDrawer() {
         DrawerOpen.value = !DrawerOpen.value
+      },
+      toggle() {
+        socket.getSocket.emit('onOff')
       },
       socket,
       route

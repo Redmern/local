@@ -22,10 +22,15 @@ http.listen(WebPort, function () {
 function handler(req, res) {
   var q = url.parse(req.url, true);
   var filename = '.' + q.pathname;
-  //console.log('filename=' + filename);
   var extname = path.extname(filename);
-  if (filename == './') {
-    //console.log('retrieving default index.html file');
+  if (
+    filename == './' ||
+    filename == './Home' ||
+    filename == './LightSchedule' ||
+    filename == './Environment' ||
+    filename == './Documentation'
+  ) {
+    console.log('retrieving default index.html file');
     filename = './index.html';
   }
 
@@ -51,7 +56,7 @@ function handler(req, res) {
       contentType = 'image/png';
       break;
   }
-
+  // filename = './index.html';
   fs.readFile(__dirname + '/dist/pwa/' + filename, function (err, content) {
     if (err) {
       //console.log('File not found. Filename=' + filename);
@@ -70,17 +75,18 @@ io.sockets.on('connection', (socket) => {
   console.log('A new client has connectioned. Send LED status');
 
   socket.on('onOff', (data) => {
-    onOffValue = data;
-    powerPin.writeSync(onOffValue);
+    data == true ? (onOffValue = 0) : (onOffValue = 1);
+
     console.log('GPIO26 : ' + onOffValue);
+    powerPin.writeSync(onOffValue);
     io.emit('onOff', onOffValue);
   });
 
   socket.on('dim', (data) => {
     dimValue = data;
+    console.log('GPIO12 : ' + dimValue);
     dimPin.pwmWrite(dimValue);
-    console.log('GPIO12 : ' + onOffValue);
-    io.emit('dim', onOffValue);
+    io.emit('dim', dimValue);
   });
 
   socket.on('disconnect', () => {

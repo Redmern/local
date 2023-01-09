@@ -2,27 +2,27 @@ import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
+    path: '',
     component: () => import('layouts/MainLayout.vue'),
-    redirect: 'Home',
+    redirect: '/Home',
     children: [
       {
-        path: 'Home',
+        path: '/Home',
         name: 'Home',
-        component: () => import('src/pages/Home.vue'),
+        component: () => import('pages/Home.vue'),
       },
       {
-        path: 'LightSchedule',
+        path: '/LightSchedule',
         name: 'Light schedule',
         component: () => import('pages/LightSchedule.vue'),
       },
       {
-        path: 'Environment',
+        path: '/Environment',
         name: 'Environment',
         component: () => import('pages/Environment.vue'),
       },
       {
-        path: 'Documentation',
+        path: '/Documentation',
         name: 'Documentation',
         component: () => import('pages/Documentation.vue'),
       },
