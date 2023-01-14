@@ -3,20 +3,76 @@ var fs = require('fs');
 var url = require('url');
 var path = require('path');
 const io = require('socket.io', 'net')(http);
+const schedule = require('node-schedule');
+const WebPort = 80;
 
 const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-const GpioPwm = require('pigpio').Gpio;
-
+const GpioPwm = require('pigpio').Gpio; //
 var powerPin = new Gpio(26, 'out'); //use GPIO pin 26 as output
 var dimPin = new GpioPwm(12, { mode: Gpio.OUTPUT });
 
-var onOffValue = 1; // Turn off the LED by default
+var onOffValue = 0; // Turn off the LED by default
 var dimValue = 0;
 
-const WebPort = 80;
+var timeOn;
+var timeOff;
+
+// var timeOnInDate = new Date();
+// var timeOffInDate = new Date();
+
+var today = new Date();
+var h = today.getHours();
+var m = today.getMinutes();
+
+var hours = checkTime(h);
+var minutes = checkTime(m);
+
+function checkTime(i) {
+  if (i < 10) {
+    i = '0' + i;
+  } // add zero in front of numbers < 10
+  return i;
+}
+
+var currentTime = hours + ':' + minutes;
+
+var jobOn;
+var jobOff;
+
+function activateTimeSchedule() {
+  console.log('TimeSchedule active');
+  console.log('Time on: ' + timeOn);
+  console.log('Time off: ' + timeOff);
+
+  if (timeOn == null || timeOff == null) return;
+
+  jobOn = schedule.scheduleJob(
+    '0 ' + timeOn.slice(3, 5) + ' ' + timeOn.slice(0, 2) + ' * * *',
+    () => {
+      console.log('TimeSchedule on');
+      onOffValue = 1;
+      powerPin.writeSync(onOffValue);
+      io.emit('onOff', onOffValue);
+    }
+  );
+
+  jobOff = schedule.scheduleJob(
+    '0 ' + timeOff.slice(3, 5) + ' ' + timeOff.slice(0, 2) + ' * * *',
+    () => {
+      console.log('TimeSchedule off');
+      onOffValue = 0;
+      powerPin.writeSync(onOffValue);
+      io.emit('onOff', onOffValue);
+    }
+  );
+}
 
 http.listen(WebPort, function () {
   console.log('Online');
+  console.log(currentTime);
+  console.log(onOffValue);
+  powerPin.writeSync(onOffValue);
+  dimPin.pwmWrite(dimValue);
 });
 
 function handler(req, res) {
@@ -73,13 +129,13 @@ function handler(req, res) {
 
 io.sockets.on('connection', (socket) => {
   console.log('A new client has connectioned. Send LED status');
-
   io.emit('Connection-onOff', onOffValue);
   io.emit('Connection-dim', dimValue);
+  io.emit('timeOn', timeOn);
+  io.emit('timeOff', timeOff);
 
   socket.on('onOff', (data) => {
-    data == true ? (onOffValue = 0) : (onOffValue = 1);
-
+    data == true ? (onOffValue = 1) : (onOffValue = 0);
     console.log('GPIO26 : ' + onOffValue);
     powerPin.writeSync(onOffValue);
     io.emit('onOff', onOffValue);
@@ -87,9 +143,26 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('dim', (data) => {
     dimValue = data;
-    console.log('GPIO12 : ' + dimValue);
     dimPin.pwmWrite(dimValue);
     io.emit('dim', dimValue);
+  });
+
+  socket.on('timeOn', (data) => {
+    timeOn = data;
+    console.log('time on : ' + timeOn);
+    io.emit('timeOn', timeOn);
+    if (timeOff != null) {
+      activateTimeSchedule();
+    }
+  });
+
+  socket.on('timeOff', (data) => {
+    timeOff = data;
+    console.log('time off : ' + timeOff);
+    io.emit('timeOff', timeOff);
+    if (timeOn != null) {
+      activateTimeSchedule();
+    }
   });
 
   socket.on('disconnect', () => {

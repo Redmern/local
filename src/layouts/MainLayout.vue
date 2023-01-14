@@ -4,15 +4,12 @@
 
       <q-header class="q-dark">
         <div class="header">
-
           <q-icon class="header_icon" name="yard" />
-
           <div class="drawer-header-title">
             <p>
               Local Setup
             </p>
           </div>
-
         </div>
       </q-header>
 
@@ -22,21 +19,15 @@
       <q-footer class="q-dark">
 
         <div class="bottom">
-
           <q-toggle q-ml-s v-model="socket.onOffValue" @click="socket.onOff()" />
           <!-- <div class="text-light-green-10">
             LocalSetup V{{ $q.version }}
           </div> -->
-
           <p style="font-size: 10px;">
             V{{ $q.version }}
           </p>
-
         </div>
       </q-footer>
-
-
-
     </q-drawer>
 
     <q-page-container>
@@ -53,6 +44,7 @@
             <q-slider id="slider" class="slider" v-model="socket.dimValue" @update:model-value="socket.dim" color="grey"
               :min="0" :max="100" label />
           </div>
+
         </q-toolbar>
       </q-footer>
     </q-page-container>
@@ -112,12 +104,6 @@ export default defineComponent({
 
     const socket = useSocket();
     socket.listen();
-
-    // const slidingValue = document.getElementById('slider')?.ariaValueNow || '';
-
-    // console.log(slidingValue);
-
-
 
     return {
       essentialLinks: linksList,

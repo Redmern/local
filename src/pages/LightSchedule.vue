@@ -1,47 +1,77 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <q-input filled v-model="timeOn" mask="time" :rules="['time']">
-      <template v-slot:append>
-        <q-icon name="access_time" class="cursor-pointer">
-          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-time v-model="timeOn" format24h>
-              <div class="row items-center justify-end">
-                <q-btn v-close-popup label="Close" color="primary" flat />
-              </div>
-            </q-time>
-          </q-popup-proxy>
-        </q-icon>
-      </template>
-    </q-input>
-    <q-input filled v-model="timeOff" mask="time" :rules="['time']">
-      <template v-slot:append>
-        <q-icon name="access_time" class="cursor-pointer">
-          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-time v-model="timeOff" format24h>
-              <div class="row items-center justify-end">
-                <q-btn v-close-popup label="Close" color="primary" flat />
-              </div>
-            </q-time>
-          </q-popup-proxy>
-        </q-icon>
-      </template>
-    </q-input>
-  </q-page>
+
+  <div class="q-pa-md">
+    <div class="q-mb-sm">
+      <q-badge color="teal">
+        Lights On: {{ socket.timeOn }}
+      </q-badge>
+    </div>
+
+    <q-btn icon="access_time" round color="primary">
+      <q-popup-proxy @before-show="updateProxyTimeOn" cover transition-show="scale" transition-hide="scale">
+        <q-time format24h v-model="proxyTimeOn">
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="primary" flat v-close-popup />
+            <q-btn label="OK" color="primary" flat @click="saveTimeOn" v-close-popup />
+          </div>
+        </q-time>
+      </q-popup-proxy>
+    </q-btn>
+  </div>
+
+  <div class="q-pa-md">
+    <div class="q-mb-sm">
+      <q-badge color="teal">
+        Lights off: {{ socket.timeOff }}
+      </q-badge>
+    </div>
+
+    <q-btn icon="access_time" round color="primary">
+      <q-popup-proxy @before-show="updateProxyTimeOff" cover transition-show="scale" transition-hide="scale">
+        <q-time format24h v-model="proxyTimeOff">
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="primary" flat v-close-popup />
+            <q-btn label="OK" color="primary" flat @click="saveTimeOff" v-close-popup />
+          </div>
+        </q-time>
+      </q-popup-proxy>
+    </q-btn>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useSocket } from 'stores/socketIO';
 import { ref } from 'vue'
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
+    const socket = useSocket();
+    const proxyTimeOn = ref('12:01')
+    const proxyTimeOff = ref('00:01')
+
     return {
-      timeOn: ref('12:00'),
-      timeOff: ref('00:00')
+      proxyTimeOff,
+      proxyTimeOn,
+
+      updateProxyTimeOn() {
+        proxyTimeOn.value = socket.timeOn
+      },
+      updateProxyTimeOff() {
+        proxyTimeOff.value = socket.timeOff
+      },
+      saveTimeOn() {
+        socket.timeOn = proxyTimeOn.value
+        socket.changeTimeOn()
+      },
+      saveTimeOff() {
+        socket.timeOff = proxyTimeOff.value
+        socket.changeTimeOff()
+      },
+      socket
     };
 
   }
 });
 </script>
-sudo
