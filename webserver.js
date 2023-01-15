@@ -39,33 +39,33 @@ var currentTime = hours + ':' + minutes;
 var jobOn;
 var jobOff;
 
-function activateTimeSchedule() {
-  console.log('TimeSchedule active');
-  console.log('Time on: ' + timeOn);
-  console.log('Time off: ' + timeOff);
+// function activateTimeSchedule() {
+//   console.log('TimeSchedule active');
+//   console.log('Time on: ' + timeOn);
+//   console.log('Time off: ' + timeOff);
 
-  if (timeOn == null || timeOff == null) return;
+//   if (timeOn == null || timeOff == null) return;
 
-  jobOn = schedule.scheduleJob(
-    '0 ' + timeOn.slice(3, 5) + ' ' + timeOn.slice(0, 2) + ' * * *',
-    () => {
-      console.log('TimeSchedule on');
-      onOffValue = 1;
-      powerPin.writeSync(onOffValue);
-      io.emit('onOff', onOffValue);
-    }
-  );
+//   jobOn = schedule.scheduleJob(
+//     '0 ' + timeOn.slice(3, 5) + ' ' + timeOn.slice(0, 2) + ' * * *',
+//     () => {
+//       console.log('TimeSchedule on');
+//       onOffValue = 1;
+//       powerPin.writeSync(onOffValue);
+//       io.emit('onOff', onOffValue);
+//     }
+//   );
 
-  jobOff = schedule.scheduleJob(
-    '0 ' + timeOff.slice(3, 5) + ' ' + timeOff.slice(0, 2) + ' * * *',
-    () => {
-      console.log('TimeSchedule off');
-      onOffValue = 0;
-      powerPin.writeSync(onOffValue);
-      io.emit('onOff', onOffValue);
-    }
-  );
-}
+//   jobOff = schedule.scheduleJob(
+//     '0 ' + timeOff.slice(3, 5) + ' ' + timeOff.slice(0, 2) + ' * * *',
+//     () => {
+//       console.log('TimeSchedule off');
+//       onOffValue = 0;
+//       powerPin.writeSync(onOffValue);
+//       io.emit('onOff', onOffValue);
+//     }
+//   );
+// }
 
 http.listen(WebPort, function () {
   console.log('Online');
@@ -151,18 +151,32 @@ io.sockets.on('connection', (socket) => {
     timeOn = data;
     console.log('time on : ' + timeOn);
     io.emit('timeOn', timeOn);
-    if (timeOff != null) {
-      activateTimeSchedule();
-    }
+
+    jobOn = schedule.scheduleJob(
+      '0 ' + timeOn.slice(3, 5) + ' ' + timeOn.slice(0, 2) + ' * * *',
+      () => {
+        console.log('TimeSchedule on');
+        onOffValue = 1;
+        powerPin.writeSync(onOffValue);
+        io.emit('onOff', onOffValue);
+      }
+    );
   });
 
   socket.on('timeOff', (data) => {
     timeOff = data;
     console.log('time off : ' + timeOff);
     io.emit('timeOff', timeOff);
-    if (timeOn != null) {
-      activateTimeSchedule();
-    }
+
+    jobOff = schedule.scheduleJob(
+      '0 ' + timeOff.slice(3, 5) + ' ' + timeOff.slice(0, 2) + ' * * *',
+      () => {
+        console.log('TimeSchedule off');
+        onOffValue = 0;
+        powerPin.writeSync(onOffValue);
+        io.emit('onOff', onOffValue);
+      }
+    );
   });
 
   socket.on('disconnect', () => {

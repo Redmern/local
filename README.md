@@ -12,8 +12,10 @@ local setup
 6. npm i -g @quasar/cli
 7. sudo git clone this project...
 8. sudo quasar build -m pwa
-9. sudo apt install pm2
-10. setup pm2 to start webserver.js on raspi boot (Document this here!!)
+9. sudo npm install pm2
+10. sudo pm2 start webserver.js
+11. sudo pm2 startup
+12. sudo pm2 save
 
 ## Install the dependencies
 
