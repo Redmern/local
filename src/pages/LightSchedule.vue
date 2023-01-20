@@ -1,47 +1,39 @@
 <template>
+  <div class="flex row justify-center schedule">
+    <q-btn class="time_btn on">
+      <q-icon class="time_btn_icon" name="sunny" />
+      <p class="time">{{ proxyTimeOn }}</p>
+      <q-popup-proxy @before-show="updateProxyTimeOn" cover transition-show="scale" transition-hide="scale">
+        <q-time format24h v-model="proxyTimeOn">
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="accent" flat v-close-popup />
+            <q-btn label="OK" color="accent" flat @click="saveTimeOn" v-close-popup />
+          </div>
+        </q-time>
+      </q-popup-proxy>
+    </q-btn>
 
-  <q-card class="my-card">
-    <q-card-section>
-      <div class="q-pa-md">
-        <div class="q-mb-sm">
-          <q-badge color="teal">
-            Lights On: {{ socket.timeOn }}
-          </q-badge>
-        </div>
+    <q-btn class="time_btn off">
+      <q-icon class="time_btn_icon" name="nightlight" />
+      <p class="time">{{ proxyTimeOff }}</p>
+      <q-popup-proxy @before-show="updateProxyTimeOff" cover transition-show="scale" transition-hide="scale">
+        <q-time format24h v-model="proxyTimeOff">
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="accent" flat v-close-popup />
+            <q-btn label="OK" color="accent" flat @click="saveTimeOff" v-close-popup />
+          </div>
+        </q-time>
+      </q-popup-proxy>
+    </q-btn>
 
-        <q-btn icon="access_time" round color="primary">
-          <q-popup-proxy @before-show="updateProxyTimeOn" cover transition-show="scale" transition-hide="scale">
-            <q-time format24h v-model="proxyTimeOn">
-              <div class="row items-center justify-end q-gutter-sm">
-                <q-btn label="Cancel" color="primary" flat v-close-popup />
-                <q-btn label="OK" color="primary" flat @click="saveTimeOn" v-close-popup />
-              </div>
-            </q-time>
-          </q-popup-proxy>
-        </q-btn>
-      </div>
+    <q-btn class="time_btn action_btn trash">
+      <q-icon name="delete" />
+    </q-btn>
+    <q-btn class="time_btn action_btn power">
+      <q-icon name="power" />
+    </q-btn>
 
-      <div class="q-pa-md">
-        <div class="q-mb-sm">
-          <q-badge color="teal">
-            Lights off: {{ socket.timeOff }}
-          </q-badge>
-        </div>
-
-        <q-btn icon="access_time" round color="primary">
-          <q-popup-proxy @before-show="updateProxyTimeOff" cover transition-show="scale" transition-hide="scale">
-            <q-time format24h v-model="proxyTimeOff">
-              <div class="row items-center justify-end q-gutter-sm">
-                <q-btn label="Cancel" color="primary" flat v-close-popup />
-                <q-btn label="OK" color="primary" flat @click="saveTimeOff" v-close-popup />
-              </div>
-            </q-time>
-          </q-popup-proxy>
-        </q-btn>
-      </div>
-    </q-card-section>
-  </q-card>
-
+  </div>
 
 </template>
 

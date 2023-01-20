@@ -1,31 +1,43 @@
 .page_header_title {
   position: fixed;
-  top: 4%;
-  left: 6%;
-  // color: var(--q-primary);
-  font-size: 32px;
+  top: 6%;
+  left: 5%;
+  width: 90%;
+  text-align: center;
+  color: var(--q-accent);
+  font-size: 28px;
   font-weight: 900;
-  background-color: var(--q-darkpage);
+  // background-color: var(--q-darkpage);
+  background-color: #5554541e;
+  padding: 5px;
+  border-radius: 15px;
+  box-shadow: 4px 2px 10px 2px #191919, -1px 0px 10px 2px #424040;
+}
+
+.q-page-container {
+  margin-top: 5rem;
 }
 
 footer.bottom_menu {
   background-color: none;
   // color: var(--q-primary);
+  box-shadow: 4px 2px 10px 2px #191919, -1px 0px 10px 2px #424040;
 }
 
 .bottom_menu {
   position: fixed;
   bottom: 20px;
-  width: 94%;
-  left: 3% !important;
-  border-radius: 5px;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(0, 0, 0, 0.12) 51%,
-    rgba(0, 0, 0, 0.12) 51%,
-    rgba(0, 0, 0, 0.04)
-  ) !important;
+  width: 90%;
+  left: 5% !important;
+  border-radius: 15px;
+  background-color: #5554541e;
+  // background-image: linear-gradient(
+  //   to bottom,
+  //   rgba(255, 255, 255, 0) 50%,
+  //   rgba(0, 0, 0, 0.12) 51%,
+  //   rgba(0, 0, 0, 0.12) 51%,
+  //   rgba(0, 0, 0, 0.04)
+  // ) !important;
 
   .footer_slider {
     width: 100%;
