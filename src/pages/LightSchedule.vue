@@ -32,9 +32,7 @@
     <q-btn class="time_btn action_btn power">
       <q-icon name="power" />
     </q-btn>
-
   </div>
-
 </template>
 
 <script lang="ts">
