@@ -20,10 +20,7 @@
 
         <div class="bottom">
           <q-toggle q-ml-s v-model="socket.onOffValue" @click="socket.onOff()" />
-          <!-- <div class="text-light-green-10">
-            LocalSetup V{{ $q.version }}
-          </div> -->
-          <p style="font-size: 10px;">
+          <p>
             V{{ $q.version }}
           </p>
         </div>
@@ -66,10 +63,10 @@ const linksList = [
     link: 'Home'
   },
   {
-    title: 'Light schedule',
+    title: 'Light schedules',
     // caption: 'Control the schedule of lights',
     icon: 'light',
-    link: 'LightSchedule'
+    link: 'LightSchedules'
   },
   {
     title: 'Environment',

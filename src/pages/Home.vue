@@ -2,15 +2,6 @@
   <q-page class="row items-center justify-evenly">
 
 
-
-
-    <!-- <q-btn color="primary" @click="socket.onOff()">klik maar hier!</q-btn>
-
-    <q-knob show-value font-size="1rem" v-model="socket.dimValue" size="75px" :thickness="0.25" color="teal"
-      track-color="grey-3" class="q-ma-md">
-      {{ socket.dimValue }}%
-    </q-knob> -->
-
   </q-page>
 </template>
 
