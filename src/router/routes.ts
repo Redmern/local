@@ -12,9 +12,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Home.vue'),
       },
       {
-        path: '/LightSchedules',
-        name: 'Light schedules',
-        component: () => import('src/pages/LightSchedules.vue'),
+        path: '/LightControl',
+        name: 'Light control',
+        component: () => import('src/pages/LightControl.vue'),
       },
       {
         path: '/Environment',

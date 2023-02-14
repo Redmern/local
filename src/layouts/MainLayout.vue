@@ -63,10 +63,10 @@ const linksList = [
     link: 'Home'
   },
   {
-    title: 'Light schedules',
+    title: 'Light control',
     // caption: 'Control the schedule of lights',
     icon: 'light',
-    link: 'LightSchedules'
+    link: 'LightControl'
   },
   {
     title: 'Environment',

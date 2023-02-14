@@ -25,13 +25,6 @@
         </q-time>
       </q-popup-proxy>
     </q-btn>
-
-    <q-btn class="time_btn action_btn trash">
-      <q-icon name="delete" />
-    </q-btn>
-    <q-btn class="time_btn action_btn power">
-      <q-icon name="power" />
-    </q-btn>
   </div>
 </template>
 
