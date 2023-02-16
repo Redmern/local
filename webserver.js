@@ -6,70 +6,19 @@ const io = require('socket.io', 'net')(http);
 const schedule = require('node-schedule');
 const WebPort = 80;
 
-const Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-const GpioPwm = require('pigpio').Gpio; //
-var powerPin = new Gpio(26, 'out'); //use GPIO pin 26 as output
+const Gpio = require('onoff').Gpio;
+const GpioPwm = require('pigpio').Gpio;
+var powerPin = new Gpio(26, 'out');
 var dimPin = new GpioPwm(12, { mode: Gpio.OUTPUT });
 
-var onOffValue = 0; // Turn off the LED by default
+var onOffValue = 0;
 var dimValue = 0;
 
-var timeOn;
-var timeOff;
-
-// var timeOnInDate = new Date();
-// var timeOffInDate = new Date();
-
-var today = new Date();
-var h = today.getHours();
-var m = today.getMinutes();
-
-var hours = checkTime(h);
-var minutes = checkTime(m);
-
-function checkTime(i) {
-  if (i < 10) {
-    i = '0' + i;
-  } // add zero in front of numbers < 10
-  return i;
-}
-
-var currentTime = hours + ':' + minutes;
-
-var jobOn;
-var jobOff;
-
-// function activateTimeSchedule() {
-//   console.log('TimeSchedule active');
-//   console.log('Time on: ' + timeOn);
-//   console.log('Time off: ' + timeOff);
-
-//   if (timeOn == null || timeOff == null) return;
-
-//   jobOn = schedule.scheduleJob(
-//     '0 ' + timeOn.slice(3, 5) + ' ' + timeOn.slice(0, 2) + ' * * *',
-//     () => {
-//       console.log('TimeSchedule on');
-//       onOffValue = 1;
-//       powerPin.writeSync(onOffValue);
-//       io.emit('onOff', onOffValue);
-//     }
-//   );
-
-//   jobOff = schedule.scheduleJob(
-//     '0 ' + timeOff.slice(3, 5) + ' ' + timeOff.slice(0, 2) + ' * * *',
-//     () => {
-//       console.log('TimeSchedule off');
-//       onOffValue = 0;
-//       powerPin.writeSync(onOffValue);
-//       io.emit('onOff', onOffValue);
-//     }
-//   );
-// }
+var timeOn = '12:01';
+var timeOff = '12:02';
 
 http.listen(WebPort, function () {
   console.log('Online');
-  console.log(currentTime);
   console.log(onOffValue);
   powerPin.writeSync(onOffValue);
   dimPin.pwmWrite(dimValue);

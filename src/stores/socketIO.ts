@@ -9,8 +9,8 @@ export const useSocket = defineStore('socket', {
     socket,
     onOffValue: true,
     dimValue: 0,
-    timeOn: ref('12:00'),
-    timeOff: ref('00:00'),
+    timeOn: ref('12:01'),
+    timeOff: ref('00:02'),
   }),
   getters: {
     getSocket: (state) => state.socket,
@@ -64,12 +64,12 @@ export const useSocket = defineStore('socket', {
 
       this.socket.on('timeOff', (data) => {
         this.timeOff = data;
-        // console.log('Boot timeOff : ' + data);
+        console.log('Boot timeOff : ' + data);
       });
 
       this.socket.on('timeOn', (data) => {
         this.timeOn = data;
-        // console.log('Boot timeOn : ' + data);
+        console.log('Boot timeOn : ' + data);
       });
     },
   },

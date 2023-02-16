@@ -25,13 +25,12 @@
         </q-time>
       </q-popup-proxy>
     </q-btn>
-  </div>
+</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useSocket } from 'stores/socketIO';
-import { ref } from 'vue'
 
 export default defineComponent({
   name: 'TimeSchedule',
@@ -40,25 +39,25 @@ export default defineComponent({
   },
   setup() {
     const socket = useSocket();
-    const proxyTimeOn = ref('12:01')
-    const proxyTimeOff = ref('00:01')
+    var proxyTimeOn = socket.timeOn;
+    var proxyTimeOff = socket.timeOn;
 
     return {
       proxyTimeOff,
       proxyTimeOn,
 
       updateProxyTimeOn() {
-        proxyTimeOn.value = socket.timeOn
+        proxyTimeOn = socket.timeOn
       },
       updateProxyTimeOff() {
-        proxyTimeOff.value = socket.timeOff
+        proxyTimeOff = socket.timeOff
       },
       saveTimeOn() {
-        socket.timeOn = proxyTimeOn.value
+        socket.timeOn = proxyTimeOn
         socket.changeTimeOn()
       },
       saveTimeOff() {
-        socket.timeOff = proxyTimeOff.value
+        socket.timeOff = proxyTimeOff
         socket.changeTimeOff()
       },
       socket
