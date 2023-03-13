@@ -19,11 +19,11 @@ export const useSocket = defineStore('socket', {
   },
   actions: {
     changeTimeOn() {
-      // console.log(this.timeOn);
+      console.log(this.timeOn);
       this.socket.emit('timeOn', this.timeOn);
     },
     changeTimeOff() {
-      // console.log(this.timeOff);
+      console.log(this.timeOff);
       this.socket.emit('timeOff', this.timeOff);
     },
     onOff() {
@@ -52,22 +52,22 @@ export const useSocket = defineStore('socket', {
       });
     },
     boot() {
-      this.socket.on('Connection-onOff', (data) => {
+      this.socket.on('Boot-onOff', (data) => {
         console.log('Boot GPIO26 : ' + data);
         data == 0 ? (this.onOffValue = false) : (this.onOffValue = true);
       });
 
-      this.socket.on('Connection-dim', (data) => {
+      this.socket.on('Boot-dim', (data) => {
         this.dimValue = data;
         // console.log('Boot GPIO12 : ' + data);
       });
 
-      this.socket.on('timeOff', (data) => {
+      this.socket.on('Boot-timeOff', (data) => {
         this.timeOff = data;
         console.log('Boot timeOff : ' + data);
       });
 
-      this.socket.on('timeOn', (data) => {
+      this.socket.on('Boot-timeOn', (data) => {
         this.timeOn = data;
         console.log('Boot timeOn : ' + data);
       });

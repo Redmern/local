@@ -78,10 +78,10 @@ function handler(req, res) {
 
 io.sockets.on('connection', (socket) => {
   console.log('A new client has connectioned. Send LED status');
-  io.emit('Connection-onOff', onOffValue);
-  io.emit('Connection-dim', dimValue);
-  io.emit('timeOn', timeOn);
-  io.emit('timeOff', timeOff);
+  io.emit('Boot-onOff', onOffValue);
+  io.emit('Boot-dim', dimValue);
+  io.emit('Boot-timeOn', timeOn);
+  io.emit('Boot-timeOff', timeOff);
 
   socket.on('onOff', (data) => {
     data == true ? (onOffValue = 1) : (onOffValue = 0);

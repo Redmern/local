@@ -4,7 +4,7 @@
       <q-icon class="time_btn_icon" name="sunny" />
       <p class="time">{{ proxyTimeOn }}</p>
       <q-popup-proxy @before-show="updateProxyTimeOn" cover transition-show="scale" transition-hide="scale">
-        <q-time format24h v-model="proxyTimeOn">
+        <q-time format24h :model-value="proxyTimeOn">
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="accent" flat v-close-popup />
             <q-btn label="OK" color="accent" flat @click="saveTimeOn" v-close-popup />
@@ -17,7 +17,7 @@
       <q-icon class="time_btn_icon" name="nightlight" />
       <p class="time">{{ proxyTimeOff }}</p>
       <q-popup-proxy @before-show="updateProxyTimeOff" cover transition-show="scale" transition-hide="scale">
-        <q-time format24h v-model="proxyTimeOff">
+        <q-time format24h :model-value="proxyTimeOff">
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="accent" flat v-close-popup />
             <q-btn label="OK" color="accent" flat @click="saveTimeOff" v-close-popup />
@@ -25,12 +25,13 @@
         </q-time>
       </q-popup-proxy>
     </q-btn>
-</div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useSocket } from 'stores/socketIO';
+import { ref } from 'vue'
 
 export default defineComponent({
   name: 'TimeSchedule',
@@ -39,25 +40,29 @@ export default defineComponent({
   },
   setup() {
     const socket = useSocket();
-    var proxyTimeOn = socket.timeOn;
-    var proxyTimeOff = socket.timeOn;
+    var proxyTimeOn = ref('12:01');
+    var proxyTimeOff = ref('00:01');
 
     return {
       proxyTimeOff,
       proxyTimeOn,
 
       updateProxyTimeOn() {
-        proxyTimeOn = socket.timeOn
+        proxyTimeOn.value = socket.timeOn
       },
       updateProxyTimeOff() {
-        proxyTimeOff = socket.timeOff
+        proxyTimeOff.value = socket.timeOff
       },
       saveTimeOn() {
-        socket.timeOn = proxyTimeOn
+        console.log('proxyTimeOn')
+        console.log(proxyTimeOn.value)
+        socket.timeOn = proxyTimeOn.value
         socket.changeTimeOn()
       },
       saveTimeOff() {
-        socket.timeOff = proxyTimeOff
+        console.log('proxyTimeOff')
+        console.log(proxyTimeOff.value)
+        socket.timeOff = proxyTimeOff.value
         socket.changeTimeOff()
       },
       socket
