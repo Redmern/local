@@ -2,17 +2,12 @@
   <div class="filler"></div>
 
 
-  <div class="flex row justify-center schedule">
-    <q-toggle size="150px" v-model="socket.onOffValue" @click="socket.onOff()" val="150px" />
-  </div>
 
   <TimeSchedule />
 
 
   <!-- <div class="neomorph-divider">
   </div> -->
-
-
 </template>
 
 
