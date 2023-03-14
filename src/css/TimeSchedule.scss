@@ -19,6 +19,11 @@
 }
 
 .time_btn {
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding-left: 10px;
   padding-right: 10px;
   background-color: #5554541e;
@@ -32,13 +37,13 @@
   width: 2rem;
 }
 
-.on {
-  margin-right: 5rem;
-}
+// .on {
+//   margin-right: 2.5rem;
+// }
 
-.off {
-  margin-right: 1.5rem;
-}
+// .off {
+//   margin-right: 1.5rem;
+// }
 
 .trash {
   margin-right: 0.7rem;
